@@ -70,6 +70,30 @@ void initPlayer(void)
 	}
 }
 
+int gameEnd(void)
+{
+	int i;
+	int flag_end = 1;
+	
+	for(i=0;i<N_PLAYER;i++)
+	{
+		if(player_status[i] == PLAYERSTATUS_LIVE)
+			flag_end = 0;
+	}
+	return flag_end;
+}
+
+void checkDie(void)
+{
+	int i;
+	for(i=0;i<N_PLAYER;i++)
+	{
+		if(board_getBoardStatus(player_position[i]) == BOARDSTATUS_NOK);
+			player_status[i] = PLAYERSTATUS_DIE;
+			printf("so sad %s died at position %i\n", player_name[i], player_status[i]);
+	}
+}
+
 int rolldie(void)
 {
 	return rand()%MAX_DIE + 1;
@@ -77,9 +101,9 @@ int rolldie(void)
 
 int main(int argc, char *argv[]) 
 {
-	int cnt;
+
 	int turn;
-	int coinResult;
+	
 	int dum;
 	
 	srand( (unsigned) (time(NULL)) );
@@ -95,12 +119,20 @@ int main(int argc, char *argv[])
 	//player init
 	
 	//step 2 . turn play(do while)
-	cnt = 0;
+	
 	turn = 0;
-	coinResult = 0;
+	
 	do
 	{
 		int die_result;
+		
+		
+		
+		if(player_status[turn] != PLAYERSTATUS_LIVE)
+		{
+			turn = (turn + 1)%N_PLAYER;
+			continue;
+		}
 		
 		//2-1. status printing
 		board_printBoardStatus();
@@ -125,23 +157,35 @@ int main(int argc, char *argv[])
 		}
 		printf("die result : %i, %s moved to %i\n", die_result, player_name[turn], player_position[turn]);
 		//each player turn
-		#if 0	
-		coinResult += board_getBoardCoin(pos);
-		printf("coin : %i\n", coinResult);
-		#endif
+		
+			
+		player_coin[turn] += board_getBoardCoin(player_position[turn]);
+		printf("lucky! %s got %i coins\n", player_name[turn], player_position[turn]);
+		
 		
 		//2-4. change turn, shark move
 		//change turn
 		turn = (turn + 1)%N_PLAYER;
 		
-		cnt++;
-		
 		//shark move
+		if (turn == 0)
+		{
+			int shark_pos = board_stepShark();
+			printf("shark moved to %i\n", shark_pos);
+			
+			//check die
+			checkDie();
+		}
+		
+		
+		
+		
 	}
-	while(cnt<5); // game end condition
+	while(gameEnd() == 0); // game end condition
 	
 	
 	//step 3 . game end (winner)
+	
 	
 	//ending
 	printf("\n\n\n\n\n\n\n\n\n\n\n");
@@ -151,3 +195,5 @@ int main(int argc, char *argv[])
 	
 	return 0;
 }
+
+//cnt da ji woo gi
