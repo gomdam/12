@@ -1,3 +1,6 @@
+
+#include "board.h"
+
 #if 0
 int board_initBoard(void);
 int board_getBoardStatus(int pos);
