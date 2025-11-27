@@ -37,6 +37,8 @@ int board_stepShark(void)
 			board_status[posIdx] = BOARDSTATUS_NOK;
 	}
 	shark_position += step;
+	
+	return shark_position;
 }
 
 void board_printBoardStatus(void)

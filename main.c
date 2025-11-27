@@ -90,7 +90,7 @@ void checkDie(void)
 	{
 		if(board_getBoardStatus(player_position[i]) == BOARDSTATUS_NOK);
 			player_status[i] = PLAYERSTATUS_DIE;
-			printf("so sad %s died at position %i\n", player_name[i], player_status[i]);
+			printf("so sad %s died at position %i\n", player_name[i], player_position[i]);
 	}
 }
 
@@ -150,7 +150,7 @@ int main(int argc, char *argv[])
 		
 		//2-3. move(result)
 		player_position[turn] += die_result;
-		if(player_position[turn] >= N_BOARD-1);
+		if(player_position[turn] >= N_BOARD-1)
 		{
 			player_position[turn] = N_BOARD-1;
 			player_status[turn] = PLAYERSTATUS_END;
@@ -160,7 +160,7 @@ int main(int argc, char *argv[])
 		
 			
 		player_coin[turn] += board_getBoardCoin(player_position[turn]);
-		printf("lucky! %s got %i coins\n", player_name[turn], player_position[turn]);
+		printf("lucky! %s got %i coins\n", player_name[turn], player_coin[turn]);
 		
 		
 		//2-4. change turn, shark move
