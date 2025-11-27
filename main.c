@@ -88,9 +88,11 @@ void checkDie(void)
 	int i;
 	for(i=0;i<N_PLAYER;i++)
 	{
-		if(board_getBoardStatus(player_position[i]) == BOARDSTATUS_NOK);
+		if(board_getBoardStatus(player_position[i]) == BOARDSTATUS_NOK)
+		{
 			player_status[i] = PLAYERSTATUS_DIE;
 			printf("so sad %s died at position %i\n", player_name[i], player_position[i]);
+		}
 	}
 }
 
